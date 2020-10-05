@@ -1,7 +1,9 @@
 import 'package:clockApp/constants/theme_data.dart';
 import 'package:clockApp/data.dart';
+import 'package:clockApp/main.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class AlarmPage extends StatefulWidget {
   @override
@@ -71,7 +73,9 @@ class _AlarmPageState extends State<AlarmPage> {
                       ),
                       Text('Mon-Fri',
                           style: TextStyle(
-                              color: Colors.white, fontFamily: 'avenir',fontWeight: FontWeight.w500)),
+                              color: Colors.white,
+                              fontFamily: 'avenir',
+                              fontWeight: FontWeight.w500)),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -93,41 +97,77 @@ class _AlarmPageState extends State<AlarmPage> {
                   ),
                 );
               }).followedBy([
-                DottedBorder(
-                  strokeWidth: 3,
-                  color: CustomColors.clockOutline,
-                  borderType: BorderType.RRect,
-                  radius: Radius.circular(25),
-                  dashPattern: [5, 4],
-                  child: Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        color: CustomColors.clockBG,
-                        borderRadius: BorderRadius.all(Radius.circular(25))),
-                    child: FlatButton(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                      onPressed: () {},
-                      child: Column(
-                        children: [
-                          Image.asset(
-                            'assets/add_alarm.png',
-                            scale: 1.5,
-                          ),
-                          SizedBox(height: 8),
-                          Text('Add Alarm',
-                              style: TextStyle(
-                                  color: Colors.white, fontFamily: 'avenir'))
-                        ],
+                if (alarms.length < 5)
+                  DottedBorder(
+                    strokeWidth: 3,
+                    color: CustomColors.clockOutline,
+                    borderType: BorderType.RRect,
+                    radius: Radius.circular(25),
+                    dashPattern: [5, 4],
+                    child: Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          color: CustomColors.clockBG,
+                          borderRadius: BorderRadius.all(Radius.circular(25))),
+                      child: FlatButton(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                        onPressed: () {
+                          scheduleAlarm();
+                          print("ses calar");
+                        },
+                        child: Column(
+                          children: [
+                            Image.asset(
+                              'assets/add_alarm.png',
+                              scale: 1.5,
+                            ),
+                            SizedBox(height: 8),
+                            Text('Add Alarm',
+                                style: TextStyle(
+                                    color: Colors.white, fontFamily: 'avenir'))
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                )
+                  )
+                else
+                  Text('Only 5 alarms allowed!'),
               ]).toList(),
             ),
           ),
         ],
       ),
     );
+  }
+
+  void scheduleAlarm() async {
+    DateTime  scheduledNotificationDateTime =
+        DateTime.now().add(Duration(seconds: 10));
+
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+      'alarm_notif',
+      'alarm_notif',
+      'Channel for Alarm notification',
+      icon: 'app_logo',
+      sound: RawResourceAndroidNotificationSound('a_long_cold_sting'),
+      largeIcon: DrawableResourceAndroidBitmap('app_logo'),
+    );
+
+    var iOSPlatformChannelSpecifics = IOSNotificationDetails(
+        sound: 'a_long_cold_sting.wav',
+        presentAlert: true,
+        presentBadge: true,
+        presentSound: true);
+    var platformChannelSpecifics = NotificationDetails(
+        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+    if (!mounted) return;
+    else{
+    await flutterLocalNotificationsPlugin.schedule(
+        0,
+        'Office',
+        'Good morning! Time for office.',
+        scheduledNotificationDateTime,
+        platformChannelSpecifics);}
   }
 }
