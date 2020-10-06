@@ -16,6 +16,12 @@ List<MenuInfo> menuItems = [
 ];
 
 List<AlarmInfo> alarms = [
-  AlarmInfo(DateTime.now().add(Duration(hours: 2)), description: 'Office',gradientColor: GradientColors.sky),
-  AlarmInfo(DateTime.now().add(Duration(hours: 2)), description: 'Sport',gradientColor: GradientColors.sunset),
+  AlarmInfo(
+      alarmDateTime: DateTime.now().add(Duration(hours: 1)),
+      title: 'Office',
+      gradientColorIndex: 0),
+  AlarmInfo(
+      alarmDateTime: DateTime.now().add(Duration(hours: 2)),
+      title: 'Sport',
+      gradientColorIndex: 1),
 ];
