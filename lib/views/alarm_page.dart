@@ -1,6 +1,5 @@
 import 'package:clockApp/alarm_helper.dart';
 import 'package:clockApp/constants/theme_data.dart';
-import 'package:clockApp/data.dart';
 import 'package:clockApp/main.dart';
 import 'package:clockApp/models/alarm_info.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -18,6 +17,7 @@ class _AlarmPageState extends State<AlarmPage> {
   String _alarmTimeString;
   AlarmHelper _alarmHelper = AlarmHelper();
   Future<List<AlarmInfo>> _alarms;
+  List<AlarmInfo> _currentAlarm;
 
   @override
   void initState() {
@@ -53,7 +53,8 @@ class _AlarmPageState extends State<AlarmPage> {
             child: FutureBuilder<List<AlarmInfo>>(
               future: _alarms,
               builder: (context, snapshot) {
-                if (snapshot.hasData)
+                if (snapshot.hasData) {
+                  _currentAlarm = snapshot.data;
                   return ListView(
                     children: snapshot.data.map<Widget>((alarm) {
                       var alarmTime =
@@ -129,7 +130,7 @@ class _AlarmPageState extends State<AlarmPage> {
                                   icon: Icon(Icons.delete),
                                   color: Colors.white,
                                   onPressed: () {
-                                    _alarmHelper.delete(alarm.id);
+                                    deleteAlarm(alarm.id);
                                   },
                                 ),
                               ],
@@ -138,7 +139,7 @@ class _AlarmPageState extends State<AlarmPage> {
                         ),
                       );
                     }).followedBy([
-                      if (alarms.length < 5)
+                      if (_currentAlarm.length < 5)
                         DottedBorder(
                           strokeWidth: 2,
                           color: CustomColors.clockOutline,
@@ -196,8 +197,9 @@ class _AlarmPageState extends State<AlarmPage> {
                                                         selectedDateTime;
                                                     setModalState(() {
                                                       _alarmTimeString =
-                                                          selectedTime
-                                                              .toString();
+                                                          DateFormat('HH:mm')
+                                                              .format(
+                                                                  selectedDateTime);
                                                     });
                                                   }
                                                 },
@@ -223,30 +225,7 @@ class _AlarmPageState extends State<AlarmPage> {
                                                     Icons.arrow_forward_ios),
                                               ),
                                               FloatingActionButton.extended(
-                                                onPressed: () async {
-                                                  DateTime
-                                                      scheduleAlarmDateTime;
-                                                  if (_alarmTime
-                                                      .isAfter(DateTime.now()))
-                                                    scheduleAlarmDateTime =
-                                                        _alarmTime;
-                                                  else
-                                                    scheduleAlarmDateTime =
-                                                        _alarmTime.add(
-                                                            Duration(days: 1));
-
-                                                  var alarmInfo = AlarmInfo(
-                                                    alarmDateTime:
-                                                        scheduleAlarmDateTime,
-                                                    gradientColorIndex:
-                                                        alarms.length,
-                                                    title: 'alarm',
-                                                  );
-                                                  _alarmHelper
-                                                      .insertAlarm(alarmInfo);
-                                                  // scheduleAlarm(
-                                                  //     scheduleAlarmDateTime);
-                                                },
+                                                onPressed: onSaveAlarm,
                                                 icon: Icon(Icons.alarm),
                                                 label: Text('Save'),
                                               ),
@@ -278,9 +257,10 @@ class _AlarmPageState extends State<AlarmPage> {
                           ),
                         )
                       else
-                        Text('Only 5 alarms allowed!'),
+                        Center(child: Text('Only 5 alarms allowed!',style: TextStyle(color:Colors.white,fontWeight: FontWeight.bold,fontSize: 20),)),
                     ]).toList(),
                   );
+                }
                 return Center(
                   child: Text(
                     'Loading..',
@@ -295,14 +275,15 @@ class _AlarmPageState extends State<AlarmPage> {
     );
   }
 
-  void scheduleAlarm(DateTime scheduledNotificationDateTime) async {
+  void scheduleAlarm(
+      DateTime scheduledNotificationDateTime, AlarmInfo alarmInfo) async {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
       'alarm_notif',
       'alarm_notif',
       'Channel for Alarm notification',
-      icon: 'codex_logo',
+      icon: 'app_logo',
       sound: RawResourceAndroidNotificationSound('a_long_cold_sting'),
-      largeIcon: DrawableResourceAndroidBitmap('codex_logo'),
+      largeIcon: DrawableResourceAndroidBitmap('app_logo'),
     );
 
     var iOSPlatformChannelSpecifics = IOSNotificationDetails(
@@ -315,8 +296,38 @@ class _AlarmPageState extends State<AlarmPage> {
     await flutterLocalNotificationsPlugin.schedule(
         0,
         'Office',
-        'Good morning! Time for office.',
+        alarmInfo.title,
         scheduledNotificationDateTime,
         platformChannelSpecifics);
+    // await flutterLocalNotificationsPlugin.show(
+    //     0,
+    //     'Office',
+    //     alarmInfo.title,
+    //     platformChannelSpecifics,
+    //     payload: 'Custom_Sound');
+  }
+
+  void onSaveAlarm() {
+    DateTime scheduleAlarmDateTime;
+    if (_alarmTime.isAfter(DateTime.now()))
+      scheduleAlarmDateTime = _alarmTime;
+    else
+      scheduleAlarmDateTime = _alarmTime.add(Duration(days: 1));
+
+    var alarmInfo = AlarmInfo(
+      alarmDateTime: scheduleAlarmDateTime,
+      gradientColorIndex: _currentAlarm.length,
+      title: 'alarm',
+    );
+    _alarmHelper.insertAlarm(alarmInfo);
+    scheduleAlarm(scheduleAlarmDateTime, alarmInfo);
+    Navigator.pop(context);
+    loadAlarms();
+  }
+
+  void deleteAlarm(int id) {
+    _alarmHelper.delete(id);
+    //unsubscribe for notifications
+    loadAlarms();
   }
 }
