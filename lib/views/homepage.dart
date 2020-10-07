@@ -2,6 +2,7 @@ import 'package:clockApp/constants/theme_data.dart';
 import 'package:clockApp/data.dart';
 import 'package:clockApp/enums.dart';
 import 'package:clockApp/menu_info.dart';
+import 'package:clockApp/views/timer_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -37,6 +38,8 @@ class _HomePageState extends State<HomePage> {
                   return ClockPage();
                 else if (value.menuType == MenuType.alarm)
                   return AlarmPage();
+                  else if (value.menuType == MenuType.timer)
+                  return TimerPage();
                 else
                   return Container(
                     child: RichText(

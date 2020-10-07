@@ -1,9 +1,7 @@
 import 'dart:async';
-
 import 'package:clockApp/constants/theme_data.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import 'clockview.dart';
 
 class ClockPage extends StatefulWidget {

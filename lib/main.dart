@@ -10,8 +10,7 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  var initializationSettingsAndroid =
-      AndroidInitializationSettings('app_logo');
+  var initializationSettingsAndroid = AndroidInitializationSettings('app_logo');
   var initializationSettingsIOS = IOSInitializationSettings(
       requestAlertPermission: true,
       requestBadgePermission: true,
@@ -20,7 +19,7 @@ void main() async {
           (int id, String title, String body, String payload) async {});
   var initializationSettings = InitializationSettings(
       initializationSettingsAndroid, initializationSettingsIOS);
- await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings,
       onSelectNotification: (String payload) async {
     if (payload != null) {
       debugPrint('notification payload: ' + payload);
@@ -32,12 +31,19 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        textTheme: TextTheme(
+          bodyText2: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+          ), //not highlighted styles
+        ),
       ),
       home: ChangeNotifierProvider<MenuInfo>(
         create: (context) => MenuInfo(MenuType.clock),
