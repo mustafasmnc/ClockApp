@@ -33,6 +33,9 @@ class _TimerPageState extends State<TimerPage> {
           started = true;
           stopped = true;
           //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>TimerPage()));
+          if(timeForTimer==0){
+            print("Stopped by default");
+          }
         } else if (timeForTimer < 60) {
           timeToDisplay = timeForTimer.toString();
           timeForTimer = timeForTimer - 1;
