@@ -1,4 +1,12 @@
 # clockApp
+Minimal UI | Modern Theme | Full Functional<br><br>
+## Screenshots
+<img src="https://github.com/mustafasmnc/ClockApp/blob/main/screenshots/clock_page.png" alt="clock page" title="Screenshot" width="200">|
+<img src="https://github.com/mustafasmnc/ClockApp/blob/main/screenshots/alarm_page.png" alt="clock page" title="Screenshot" width="200">
+<img src="https://github.com/mustafasmnc/ClockApp/blob/main/screenshots/add_alarm_1.png" alt="clock page" title="Screenshot" width="200">
+<img src="https://github.com/mustafasmnc/ClockApp/blob/main/screenshots/add_alarm2.png" alt="clock page" title="Screenshot" width="200">
+<img src="https://github.com/mustafasmnc/ClockApp/blob/main/screenshots/timer_page.png" alt="clock page" title="Screenshot" width="200">
+<img src="https://github.com/mustafasmnc/ClockApp/blob/main/screenshots/stopwatch_page.png" alt="clock page" title="Screenshot" width="200">
 
 A new Flutter project.
 
