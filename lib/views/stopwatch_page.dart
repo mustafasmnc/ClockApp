@@ -3,7 +3,6 @@ import 'package:clockApp/constants/theme_data.dart';
 import 'package:clockApp/models/dependencies.dart';
 import 'package:clockApp/widgets/timer_clock.dart';
 import 'package:flutter/material.dart';
-import 'package:numberpicker/numberpicker.dart';
 
 class StopWatchPage extends StatefulWidget {
   final Dependencies dependencies;
