@@ -58,7 +58,7 @@ class _ClockPageState extends State<ClockPage> {
             child: Align(
               alignment: Alignment.center,
               child: ClockView(
-                size: MediaQuery.of(context).size.height / 4,
+                size: 180
               ),
             ),
           ),

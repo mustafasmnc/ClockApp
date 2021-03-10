@@ -33,7 +33,7 @@ class _TimerPageState extends State<TimerPage> {
           started = true;
           stopped = true;
           //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>TimerPage()));
-          if(timeForTimer==0){
+          if (timeForTimer == 0) {
             print("Stopped by default");
           }
         } else if (timeForTimer < 60) {
@@ -109,7 +109,10 @@ class _TimerPageState extends State<TimerPage> {
                           listViewWidth: 60,
                           itemExtent: 60,
                           infiniteLoop: true,
-                          decoration: BoxDecoration(border: Border.all(width: 1,color: Colors.white30),borderRadius: BorderRadius.circular(30),),
+                          decoration: BoxDecoration(
+                            border: Border.all(width: 1, color: Colors.white30),
+                            borderRadius: BorderRadius.circular(30),
+                          ),
                           onChanged: (val) {
                             setState(() {
                               hour = val;
@@ -137,7 +140,10 @@ class _TimerPageState extends State<TimerPage> {
                           listViewWidth: 60,
                           itemExtent: 60,
                           infiniteLoop: true,
-                          decoration: BoxDecoration(border: Border.all(width: 1,color: Colors.white30),borderRadius: BorderRadius.circular(30),),
+                          decoration: BoxDecoration(
+                            border: Border.all(width: 1, color: Colors.white30),
+                            borderRadius: BorderRadius.circular(30),
+                          ),
                           onChanged: (val) {
                             setState(() {
                               min = val;
@@ -165,7 +171,10 @@ class _TimerPageState extends State<TimerPage> {
                           listViewWidth: 60,
                           itemExtent: 60,
                           infiniteLoop: true,
-                          decoration: BoxDecoration(border: Border.all(width: 1,color: Colors.white30),borderRadius: BorderRadius.circular(30),),
+                          decoration: BoxDecoration(
+                            border: Border.all(width: 1, color: Colors.white30),
+                            borderRadius: BorderRadius.circular(30),
+                          ),
                           onChanged: (val) {
                             setState(() {
                               sec = val;
@@ -192,117 +201,17 @@ class _TimerPageState extends State<TimerPage> {
           Expanded(
               flex: 3,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  /*RaisedButton(
-                    onPressed: () {},
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 10,
-                    ),
-                    child: Text(
-                      "Start",
-                      style: TextStyle(fontSize: 18, color: Colors.white),
-                    ),
-                    color: Colors.green[300],
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                  ),*/
-                  RaisedButton(
+                  FloatingActionButton(
                     onPressed: started ? start : null,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(80.0)),
-                    padding: const EdgeInsets.all(0.0),
-                    child: Ink(
-                      decoration: started
-                          ? const BoxDecoration(
-                              gradient: LinearGradient(
-                                  begin: Alignment.topRight,
-                                  end: Alignment.bottomLeft,
-                                  colors: [
-                                    Color(0xFF61A3FE),
-                                    Color(0xFF63FFD5),
-                                  ]),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(80.0)),
-                            )
-                          : const BoxDecoration(
-                              gradient: LinearGradient(
-                                  begin: Alignment.topRight,
-                                  end: Alignment.bottomLeft,
-                                  colors: [
-                                    Colors.white,
-                                    Colors.grey,
-                                  ]),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(80.0)),
-                            ),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width / 8,
-                        height: MediaQuery.of(context).size.height /
-                            14, // min sizes for Material buttons
-                        constraints: const BoxConstraints(
-                            minWidth: 88.0, minHeight: 36.0),
-                        alignment: Alignment.center,
-                        child: const Text(
-                          'START',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
-                    ),
+                    backgroundColor: started ? Colors.green : Colors.grey,
+                    child: Icon(Icons.play_arrow),
                   ),
-                  RaisedButton(
+                  FloatingActionButton(
                     onPressed: stopped ? null : stop,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(80.0)),
-                    padding: const EdgeInsets.all(0.0),
-                    child: Ink(
-                      decoration: started
-                          ? const BoxDecoration(
-                              gradient: LinearGradient(
-                                  begin: Alignment.topRight,
-                                  end: Alignment.bottomLeft,
-                                  colors: [
-                                    Colors.white,
-                                    Colors.grey,
-                                  ]),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(80.0)),
-                            )
-                          : const BoxDecoration(
-                              gradient: LinearGradient(
-                                  begin: Alignment.topRight,
-                                  end: Alignment.bottomLeft,
-                                  colors: [
-                                    Color(0xFFFE6197),
-                                    Color(0xFFFFB463),
-                                  ]),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(80.0)),
-                            ),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width / 8,
-                        height: MediaQuery.of(context).size.height /
-                            14, // min sizes for Material buttons
-                        constraints: const BoxConstraints(
-                            minWidth: 88.0, minHeight: 36.0),
-                        alignment: Alignment.center,
-                        child: const Text(
-                          'STOP',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
-                    ),
+                    backgroundColor: stopped ? Colors.grey : Colors.red,
+                    child: Icon(Icons.stop),
                   )
                 ],
               )),
